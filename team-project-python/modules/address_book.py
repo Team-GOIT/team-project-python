@@ -1,2 +1,0 @@
-class AddressBook:
-    print('fds')
