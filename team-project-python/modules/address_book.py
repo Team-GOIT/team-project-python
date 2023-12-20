@@ -1,2 +1,2 @@
 class AddressBook:
-    pass
+    print('fds')
