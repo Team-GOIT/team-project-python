@@ -59,7 +59,8 @@ commands = [
     '{:<50}|{:^50}|{:^50}|'.format('Send sms to contact', "send-sms <contact-name>", "SMS will be sent to the contact"),
     '',
     '{:<50}|{:^50}|{:^50}|'.format('Send voice message', "send-voice <contact-name>", "The phone call will read the message you send."),
-    ''
+    '',
+    '{:<50}|{:^50}|{:^50}|'.format('Search contact by input', "search <input>", "Search contact by input"),
 ]
 
 commands_array = [
@@ -89,4 +90,5 @@ commands_array = [
     'delete-contact',
     'delete-note',
     'show-birthdays',
+    'search'
 ]
