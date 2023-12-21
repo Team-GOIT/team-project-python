@@ -8,7 +8,7 @@ commands = [
     '',
     '{:<50}|{:^50}|{:^50}|'.format('Add new contact', "add <name> <phone>", "The contact will be added to your address book"),
     '',
-    '{:<50}|{:^50}|{:^50}|'.format('Add address to the contact', "add-address <name> <country> <city> <street> <house_number> <postal_code>", "The address will be added to existing contact"),
+    '{:<50}|{:^50}|{:^50}|'.format('Add address to the contact', "add-address <name> <address>", "The address will be added to existing contact"),
     '',
     '{:<50}|{:^50}|{:^50}|'.format('Add email to the contact', "add-email <name> <email>", "The email will be added to existing contact"),
     '',

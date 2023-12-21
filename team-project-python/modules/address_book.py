@@ -1,18 +1,20 @@
-
 from collections import UserDict
 from datetime import datetime
 from .birthday import Birthday
 from .contact import Contact;
 
 class AddressBook(UserDict):
-    
     def add_contact(self,user):
-       
+
         self.data[user.name.value] = user
-        
+
+    def add_note(self,note):
+        self.data[note['title']] = note
+
     def find_contact(self,name):
-        print(self.data)
         return self.data[name] if name in self.data.keys() else None
+    def find_note(self,title):
+        return self.data[title] if title in self.data.keys() else None
     def delete_contact(self,name):
         if name in self.data:
             del self.data[name]
@@ -20,7 +22,7 @@ class AddressBook(UserDict):
         today = datetime.now()
         week_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         grouped_birthdays = {day: [] for day in week_days}
-   
+
         for name,contact in self.data.items():
             birthday = contact.birthday
             
@@ -35,7 +37,7 @@ class AddressBook(UserDict):
                     birthday_this_year = birthday_this_year.replace(year=today.year + 1)
 
                 delta_days = (birthday_this_year - today).days
-                
+
                 if 0 <= delta_days < int(period):
                     print('period', period, delta_days)
                     
@@ -50,4 +52,3 @@ class AddressBook(UserDict):
             output += f'{day}: {", ".join(names)}\n'
 
         return output
-
