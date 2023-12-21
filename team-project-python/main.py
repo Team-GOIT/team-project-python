@@ -74,39 +74,39 @@ def main():
         elif command == 'find':
             find_contact(*args)
         elif command == 'change-phone':
-            change_phone(args)
+            change_phone(*args)
         elif command == 'change-email':
-            change_email(args)
+            change_email(*args)
         elif command == 'change-address':
-            change_address(args)
+            change_address(*args)
         elif command == 'change-birthday':
-            change_birthday(args)
+            change_birthday(*args)
         elif command == 'change-note':
-            change_note(args)
+            change_note(*args)
         elif command =='show-address':
-            show_address(args)
+            show_address(*args)
         elif command =='show-email':
-            show_email(args)
+            show_email(*args)
         elif command =='show-phone':
-            show_phone(args)
+            show_phone(*args)
         elif command =='show-birthday':
-            show_birthday(args)
+            show_birthday(*args)
         elif command =='show-note':
-            show_note(args)
+            show_note(*args)
         elif command == 'delete-phone':
-            delete_phone(args)
+            delete_phone(*args)
         elif command == 'delete-email':
-            delete_email(args)
+            delete_email(*args)
         elif command == 'delete-birthday':
-            delete_birthday(args)
+            delete_birthday(*args)
         elif command == 'delete-address':
-            delete_address(args)
+            delete_address(*args)
         elif command == 'delete-contact':
-            delete_contact(args)
+            delete_contact(*args)
         elif command == 'delete-note':
-            delete_note(args)
+            delete_note(*args)
         elif command == "show-birthdays":
-            show_birthdays(args)
+            show_birthdays(*args)
         else:
             print('Invalid command')
 
