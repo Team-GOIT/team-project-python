@@ -1,6 +1,7 @@
 from .field import Field
 
 class Address(Field):
+
     #створюємо клас Address та перевіряємо чи адреса обов'язково містить країну та місто, а також чи поштовий індекс складається з 5ти цифр
     
     def __init__(self, country='', city='', street='', house_number='', postal_code=''):
@@ -26,5 +27,6 @@ class Address(Field):
             return f'Address: {formatted_address}'
         else:
             return 'No address provided.'
+
 
         

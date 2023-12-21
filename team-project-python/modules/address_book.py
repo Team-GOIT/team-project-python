@@ -3,7 +3,6 @@ from datetime import datetime
 from .birthday import Birthday
 
 class AddressBook(UserDict):
-
     def add_contact(self,user):
 
         self.data[user.name.value] = user

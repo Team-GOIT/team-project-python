@@ -23,3 +23,4 @@ class Email(Field):
             return f'Email: {self.email}'
         else:
             return 'No email set.'
+

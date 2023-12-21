@@ -2,6 +2,7 @@ from .field import Field
 
 
 class Name(Field):
+
     # створення класу Name, де ми перевіряємо чи передане ім'я не порожнє та складається тільки з літер
 
     def __init__(self, value):
@@ -15,3 +16,4 @@ class Name(Field):
     def __str__(self):
         return(self.value)
     
+

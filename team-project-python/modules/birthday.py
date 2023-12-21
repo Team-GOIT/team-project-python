@@ -22,3 +22,4 @@ class Birthday(Field):
             return f'Birthday: {self.date}'
         else:
             return 'No birthday set.'
+
