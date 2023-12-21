@@ -9,13 +9,9 @@ class AddressBook(UserDict):
        
         self.data[user.name.value] = user
         
-    def add_note(self,note):
-        self.data[note['title']] = note
-        
     def find_contact(self,name):
+        print(self.data)
         return self.data[name] if name in self.data.keys() else None
-    def find_note(self,title):
-        return self.data[title] if title in self.data.keys() else None
     def delete_contact(self,name):
         if name in self.data:
             del self.data[name]
