@@ -1,4 +1,3 @@
-from modules import AddressBook
 from commands_list import commands
 from actions import *
 from controllers import *
@@ -8,11 +7,12 @@ import pickle
 def write_to_file(contacts):
     with open('data.bin', 'wb') as fh:
         pickle.dump(contacts, fh)
+
         
 def read_from_file():
     with open('data.bin', 'rb') as fh:
-        unpacked = pickle.load(fh)
-        return unpacked
+        decoded = pickle.load(fh)
+        return decoded
 
 
 def parse_input(user_input):
@@ -28,8 +28,6 @@ greeting = """
           
           Just use such commands
           """
-
-  
     
 def main():
     print(greeting)
@@ -43,12 +41,14 @@ def main():
         contacts = AddressBook()
         initial_state(contacts)
         
+        
     
     while True:
         user_input =input("Enter the command >>>>>")
         command, *args = parse_input(user_input)
         
         if command in ['close', 'exit']:
+            
             write_to_file(contacts)
             print('Good bye')
             break
