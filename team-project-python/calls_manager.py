@@ -28,7 +28,7 @@ def send_message(phone_number, text):
 def voice_message(phone_number, text):
     try:
         call = twilio_client.calls.create(
-            twiml=f"<Response>{text}</Say></Response>",
+            twiml=f"<Response><Say>{text}</Say></Response>",
             to=phone_number,
             from_=from_number
         )
