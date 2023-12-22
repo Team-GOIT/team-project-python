@@ -1,5 +1,5 @@
 from modules import Contact, AddressBook, NotesBook
-import sms_manager
+import calls_manager
 
 # lets move it from here
 # lets use more clear variables names
@@ -349,7 +349,14 @@ def show_birthdays(args, kwargs):
 def send_sms(args, kwargs):
     contact_name, sms_text = args
     # This line returns error. Why?
-    contact = contacts.find_contact(contact_name)
-    if contact:
-        print('contact', contact)
-        # sms_manager.send_message(contact.phone, sms_text)
+    # contact = contacts.find_contact(contact_name)
+    # if contact:
+    #     print('contact', contact)
+        # calls_manager.send_message(contact.phone, sms_text)
+
+def voice_message(args, kwargs):
+    contact_name, sms_text = args
+    # This line returns error. Why?
+    # contact = contacts.find_contact(contact_name)
+    # if contact:
+        # calls_manager.voice_message(contact.phone, sms_text)

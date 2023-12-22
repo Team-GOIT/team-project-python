@@ -57,6 +57,8 @@ commands = [
     '{:<50}|{:^50}|{:^50}|'.format('Show the nearest birthdays', "show-birthdays <period>", "Show all birthdays in mentioned period"),
     '',
     '{:<50}|{:^50}|{:^50}|'.format('Send sms to contact', "send-sms <contact-name>", "SMS will be sent to the contact"),
+    '',
+    '{:<50}|{:^50}|{:^50}|'.format('Send voice message', "send-voice <contact-name>", "The phone call will read the message you send."),
     ''
 ]
 

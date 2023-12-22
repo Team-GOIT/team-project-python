@@ -23,3 +23,23 @@ def send_message(phone_number, text):
     #Exception code could be improved
     except Exception:
         print(f"Failed to send message to: {phone_number}. Make sure phone number is correct.")
+
+
+def voice_message(phone_number, text):
+    try:
+        call = twilio_client.calls.create(
+            twiml=f"<Response>{text}</Say></Response>",
+            to=phone_number,
+            from_=from_number
+        )
+
+        # Print the call SID
+        print(f"Call SID: {call.sid}")
+
+        if call.sid:
+            print(f"Calling '{phone_number}...'")
+        else:
+            print(f"Failed to call: {phone_number}. Make sure phone number is correct.")
+    #Exception code could be improved
+    except Exception:
+        print(f"Failed to call: {phone_number}. Make sure phone number is correct.")

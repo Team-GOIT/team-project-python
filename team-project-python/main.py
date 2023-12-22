@@ -92,6 +92,8 @@ def main():
             controllers.show_phone(args)
         elif command =='send-sms':
             controllers.send_sms(*args)
+        elif command =='send-voice':
+            controllers.voice_message(*args)
         elif command =='show-birthday':
             controllers.show_birthday(args)
         elif command =='show-note':
