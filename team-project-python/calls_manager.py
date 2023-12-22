@@ -23,3 +23,19 @@ def send_message(phone_number, text):
     #Exception code could be improved
     except Exception:
         print(f"Failed to send message to: {phone_number}. Make sure phone number is correct.")
+
+def send_message(phone_number, text):
+    try:
+        message = twilio_client.messages.create(
+            body=text,
+            from_=from_number,
+            to=phone_number
+        )
+        print(f"Message sent to {phone_number}")
+
+        if message.sid:
+            print(f"Message '{text}' sent to phone number:'{phone_number}'")
+        else:
+            print(f"Failed to send message to: {phone_number}. Make sure phone number is correct.")
+    except Exception:
+        print(f"Failed to send message to: {phone_number}. Make sure phone number is correct.")

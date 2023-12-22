@@ -1,5 +1,5 @@
 from modules import Contact, AddressBook, NotesBook
-import sms_manager
+# import calls_manager
 
 # lets move it from here
 # lets use more clear variables names
@@ -80,7 +80,7 @@ def add_email(args, kwargs):
     
         if not email:
             raise IndexError('Missing required value - Email')
-        contact = book.data.get(name)
+        contact = contacts.data.get(name)
         if contact:
             contact.add_or_edit_email(email)
             print('Email was added')
@@ -94,7 +94,7 @@ def add_birthday(args, kwargs):
     print(args, 'here birth')
     try:
         name, birthday= args
-        contact = book.data.get(name)
+        contact = contacts.data.get(name)
         if contact:
             contact.add_or_edit_birthday(birthday)
             
@@ -107,30 +107,26 @@ def add_birthday(args, kwargs):
             raise ValueError("Missing required value - Birthday")
         
 @input_error
-def add_note(args, kwargs): 
-    try:
-        print(args)
-        title,*content= args
-        content= ' '.join(content)
-        
-        if not content:
-            raise IndexError('Missing required value - Description')
-        
-        notes.add_note(title, content)
-        print("Note was added")
-    except:
-        raise TypeError('Something went wrong. Try again')      
+def add_note(args, kwargs):
+    title = input("Enter note's title: ")
+    content = input("Enter note's content: ")
+    tags = input("Enter note's tags: ")
+    tags_list = tags.split(' ')
+
+    if not content or not title:
+        raise ValueError('Make sure you added title and content of the note')
+
+    print(notes.add_note(title, content, tags_list))
+
     
 @input_error
 def show_contacts(args, kwargs):
-    print(book.data)
-    for name ,contact in book.data.items():
+    for name ,contact in contacts.data.items():
         print(f'{contact.name}: {contact.phone}, {contact.birthday}')
 
 @input_error
 def show_notes(args, kwargs):
-    for note in noteBook.notes:
-        print(note)
+    print(notes.get_all_notes())
         
 @input_error
 def find_contact(args, kwargs):
@@ -143,23 +139,21 @@ def find_contact(args, kwargs):
         raise NameError("Such contact doesn't exist")
 
 @input_error
-def change_phone(args,kwargs):
-    try:
-        name,*phone= args
-        phone= ' '.join(phone)
-        contact = contacts.data.get(name)
-        if contact:
-            contact.add_or_edit_phone(phone)
-            
-    except NameError:
-        raise NameError("Such contact doesn't exist")
-    except ValueError:
-            raise ValueError("Missing required value - Phone")
+def change_note(args, kwargs):
+    title, *des= args
+
+    content = input("Enter note's content: ")
+
+#   Update this line
+    tags = input("Enter note's tags: ")
+    tags_list = tags.split(' ')
+
+    print(notes.edit_note(title, content, tags_list))
         
 @input_error
 def change_email(args, kwargs):
     try:
-        name, email= args
+        name, email = args
         # use method from class
         contact = contacts.data.get(name)
         if contact:
@@ -174,7 +168,7 @@ def change_email(args, kwargs):
 @input_error
 def change_birthday(args,kwargs):
     try:
-        name,birthday= args
+        name,birthday = args
         # use method from class
         contact = contacts.data.get(name)
         if contact:
@@ -203,13 +197,12 @@ def change_address(args, kwargs):
             raise ValueError("Missing required value - Address")
 
 @input_error
-def change_note(args,kwargs):
+def change_note(args, kwargs):
     try:
         title,*des= args
         des= ' '.join(des)
-        contacts.edit_note(title, des)
-            
-        # check    
+        notes.edit_note(title, des)
+
         print('Note was updated successfully')
     except NameError:
         raise NameError("Such note doesn't exist")
@@ -218,7 +211,7 @@ def change_note(args,kwargs):
         
 @input_error
 def show_address(args, kwargs):
-    name, *args= args
+    name, *args = args
     contact = notes.data.get(name)
     if contact:
         return contact.address
@@ -227,7 +220,7 @@ def show_address(args, kwargs):
     
 @input_error
 def show_email(args, kwargs):
-    name, *args= args
+    name, *args = args
     contact = notes.data.get(name)
     if contact:
         return contact.email
@@ -236,7 +229,7 @@ def show_email(args, kwargs):
     
 @input_error
 def show_phone(args, kwargs):
-    name, *args= args
+    name, *args = args
     # use class method
     contact = contacts.data.get(name)
     if contact:
@@ -246,7 +239,7 @@ def show_phone(args, kwargs):
     
 @input_error
 def show_birthday(args, kwargs):
-    name, *args= args
+    name, *args = args
     contact = contacts.data.get(name)
     if contact:
         print(contact.birthday)
@@ -255,12 +248,13 @@ def show_birthday(args, kwargs):
     
 @input_error
 def show_note(args, kwargs):
-    try:
-        title, *args= args
-        note = notes.search_notes(title)
-        print(note)
-    except:
-        raise NameError("Such note doesn't exist")
+    title, *args = args
+    print(notes.get_note(title))
+
+@input_error
+def search_notes(args, kwargs):
+    query, *args = args
+    print(notes.search_notes(query))
     
 @input_error
 def delete_address(args, kwargs):
@@ -293,7 +287,7 @@ def delete_email(args, kwargs):
 @input_error
 def delete_birthday(args, kwargs):
     try:
-        name, *birthday= args
+        name, *birthday = args
         
         contact = contacts.data.get(name)
         if contact:
@@ -305,7 +299,7 @@ def delete_birthday(args, kwargs):
 @input_error
 def delete_phone(args, kwargs):
     try:
-        name, *phone= args
+        name, *phone = args
         
         contact = contacts.data.get(name)
         if contact:
@@ -327,11 +321,8 @@ def delete_contact(args, kwargs):
 
 @input_error   
 def delete_note(args, kwargs):
-    try:
-        title, *arg = args
-        print(notes.delete_note(title))
-    except:
-        raise NameError("Such note doesn't exist")
+    title, *arg = args
+    print(notes.delete_note(title))
 
 @input_error
 def show_birthdays(args, kwargs):
@@ -344,6 +335,19 @@ def show_birthdays(args, kwargs):
     except:
         raise ValueError("Period is missing")
 
+@input_error
+def add_note_tag(args, kwargs):
+    note_title, tag = args
+    print(notes.add_tag(note_title, tag))
+
+@input_error
+def delete_note_tag(args, kwargs):
+    note_title, tag = args
+    print(notes.delete_tag(note_title, tag))
+
+@input_error
+def search_notes_by_tag(tags, kwargs):
+    print(notes.search_notes_by_tags(tags))
 
 @input_error
 def send_sms(args, kwargs):
@@ -352,4 +356,4 @@ def send_sms(args, kwargs):
     contact = contacts.find_contact(contact_name)
     if contact:
         print('contact', contact)
-        # sms_manager.send_message(contact.phone, sms_text)
+        # calls_manager.send_message(contact.phone, sms_text)

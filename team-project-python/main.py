@@ -110,6 +110,12 @@ def main():
             controllers.delete_note(args)
         elif command == "show-birthdays":
             controllers.show_birthdays(args)
+        elif command == "add-tag":
+            controllers.add_note_tag(*args)
+        elif command == "delete-tag":
+            controllers.delete_note_tag(*args)
+        elif command == "search-notes-by-tags":
+            controllers.search_notes_by_tag(*args)
         else:
             print('Invalid command')
 
