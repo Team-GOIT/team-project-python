@@ -27,11 +27,9 @@ class AddressBook(UserDict):
             birthday = contact.birthday
             
             if isinstance(birthday, Birthday):
-                print(True)
                 str_time = str(birthday).split(': ')[1]
                
                 birthday_this_year = datetime.strptime(str_time, '%d-%m-%Y').replace(year=today.year)
-                print(birthday_this_year)
                 
                 if birthday_this_year < today:
                     birthday_this_year = birthday_this_year.replace(year=today.year + 1)
@@ -39,7 +37,6 @@ class AddressBook(UserDict):
                 delta_days = (birthday_this_year - today).days
 
                 if 0 <= delta_days < int(period):
-                    print('period', period, delta_days)
                     
                     week_day = birthday_this_year.weekday()
                     if week_day == 6 or week_day == 5:

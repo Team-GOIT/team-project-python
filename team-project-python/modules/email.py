@@ -18,7 +18,7 @@ class Email(Field):
         else:
             raise ValueError('Please provide a valid email address.')
 
-    def str(self):
+    def __str__(self):
         if self.email:
             return f'Email: {self.email}'
         else:

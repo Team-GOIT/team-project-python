@@ -19,23 +19,23 @@ class Contact:
         return ','.join(filter(lambda n: n, info_array))
 
     @property
-    def name(self) -> Name | None:
+    def name(self) -> Name :
         return self._name
 
     @property
-    def phone(self) -> Phone | None:
+    def phone(self) -> Phone :
         return self._phone
 
     @property
-    def email(self) -> Email | None:
+    def email(self) -> Email :
         return self._email
 
     @property
-    def address(self) -> Address | None:
+    def address(self) -> Address :
         return self._address
 
     @property
-    def birthday(self) -> Birthday | None:
+    def birthday(self) -> Birthday :
         return self._birthday
 
     def add_or_edit_phone(self, value: str) -> None:
