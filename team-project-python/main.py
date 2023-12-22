@@ -2,12 +2,13 @@ from commands_list import commands
 from controllers import *
 
 
-
+# parse input, split for command and provided values
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args
 
+# message to greet the user
 greeting = """
           
           Welcome to the personal assistant app!
@@ -17,6 +18,7 @@ greeting = """
           Just use such commands
           """
     
+# parse all commands
 def main():
     print(greeting)
     for i in commands:
