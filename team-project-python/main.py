@@ -1,35 +1,39 @@
-from commands_list import commands
+from commands_list import commands, commands_array
 from controllers import *
-
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import WordCompleter
 
 
 def parse_input(user_input):
+    if not user_input:
+        return '', []
+
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args
 
 greeting = """
-          
+
           Welcome to the personal assistant app!
-          
+
           You can save all your important information here.
-          
+
           Just use such commands
           """
-    
+
 def main():
     print(greeting)
     for i in commands:
         print(i)
 
     read_from_file()
-    
+    completer = WordCompleter(commands_array, ignore_case=True, sentence=True)
+
     while True:
-        user_input =input("Enter the command >>>>>")
+        user_input = prompt("Enter the command >>>>>", completer=completer)
         command, *args = parse_input(user_input)
         
         if command in ['close', 'exit']:
-            
             write_to_file()
             print('Good bye')
             break
@@ -38,7 +42,6 @@ def main():
         elif command == 'help':
             for i in commands:
                 print(i)
-            
         elif command == 'add':
             add_contact(*args)
         elif command == "add-address":
@@ -93,5 +96,5 @@ def main():
             print('Invalid command')
 
 
-# if __name__ == '__main__':
-main()
+if __name__ == '__main__':
+    main()
