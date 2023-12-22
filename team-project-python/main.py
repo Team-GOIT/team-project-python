@@ -1,19 +1,17 @@
 from commands_list import commands
-from actions import *
-from controllers import *
+import controllers
 import pickle
 
-
+# Lets move write_to_file from here
 def write_to_file(contacts):
     with open('data.bin', 'wb') as fh:
         pickle.dump(contacts, fh)
 
-        
+ # Lets move read_from_file from here
 def read_from_file():
     with open('data.bin', 'rb') as fh:
         decoded = pickle.load(fh)
         return decoded
-
 
 def parse_input(user_input):
     cmd, *args = user_input.split()
@@ -31,20 +29,20 @@ greeting = """
     
 def main():
     print(greeting)
+     # Lets create a help method/controller
     for i in commands:
         print(i)
-    
-    try:
-        contacts= read_from_file()
-        initial_state(contacts)
-    except:
-        contacts = AddressBook()
-        initial_state(contacts)
-        
-        
-    
+
+    # Lets move it from here
+#     try:
+#         contacts= read_from_file()
+#         initial_state(contacts)
+#     except:
+#         contacts = AddressBook()
+#         initial_state(contacts)
+
     while True:
-        user_input =input("Enter the command >>>>>")
+        user_input =input("Enter the command:")
         command, *args = parse_input(user_input)
         
         if command in ['close', 'exit']:
@@ -54,63 +52,66 @@ def main():
             break
         elif command=='hello':
             print('How can I help you?')
+
+        # Lets use help method/controller instead
         elif command == 'help':
             for i in commands:
                 print(i)
             
         elif command == 'add':
-            add_contact(*args)
+            controllers.add_contact(*args)
         elif command == "add-address":
-            add_address(*args)
+            controllers.add_address(*args)
         elif command == "add-email":
-            add_email(*args)
+            controllers.add_email(*args)
         elif command == "add-birthday":
-            add_birthday(*args)
+            controllers.add_birthday(*args)
         elif command == "add-note":
-            add_note(*args)
+            controllers.add_note(*args)
         elif command == 'all-contacts':
-            show_contacts()
+            controllers.show_contacts()
         elif command == 'all-notes':
-            show_notes()
+            controllers.show_notes()
         elif command == 'find':
-            find_contact(*args)
+            controllers.find_contact(*args)
         elif command == 'change-phone':
-            change_phone(args)
+            controllers.change_phone(args)
         elif command == 'change-email':
-            change_email(args)
+            controllers.change_email(args)
         elif command == 'change-address':
-            change_address(args)
+            controllers.change_address(args)
         elif command == 'change-birthday':
-            change_birthday(args)
+            controllers.change_birthday(args)
         elif command == 'change-note':
-            change_note(args)
+            controllers.change_note(args)
         elif command =='show-address':
-            show_address(args)
+            controllers.show_address(args)
         elif command =='show-email':
-            show_email(args)
+            controllers.show_email(args)
         elif command =='show-phone':
-            show_phone(args)
+            controllers.show_phone(args)
+        elif command =='send-sms':
+            controllers.send_sms(*args)
         elif command =='show-birthday':
-            show_birthday(args)
+            controllers.show_birthday(args)
         elif command =='show-note':
-            show_note(args)
+            controllers.show_note(args)
         elif command == 'delete-phone':
-            delete_phone(args)
+            controllers.delete_phone(args)
         elif command == 'delete-email':
-            delete_email(args)
+            controllers.delete_email(args)
         elif command == 'delete-birthday':
-            delete_birthday(args)
+            controllers.delete_birthday(args)
         elif command == 'delete-address':
-            delete_address(args)
+            controllers.delete_address(args)
         elif command == 'delete-contact':
-            delete_contact(args)
+            controllers.delete_contact(args)
         elif command == 'delete-note':
-            delete_note(args)
+            controllers.delete_note(args)
         elif command == "show-birthdays":
-            show_birthdays(args)
+            controllers.show_birthdays(args)
         else:
             print('Invalid command')
-
 
 # if __name__ == '__main__':
 main()

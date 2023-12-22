@@ -55,6 +55,8 @@ commands = [
     '{:<50}|{:^50}|{:^50}|'.format('Delete note from your address book', "delete-note <title>", "Delete note from your address book"),
     '',
     '{:<50}|{:^50}|{:^50}|'.format('Show the nearest birthdays', "show-birthdays <period>", "Show all birthdays in mentioned period"),
+    '',
+    '{:<50}|{:^50}|{:^50}|'.format('Send sms to contact', "send-sms <contact-name>", "SMS will be sent to the contact"),
     ''
 ]
 
