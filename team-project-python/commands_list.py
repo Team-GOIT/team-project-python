@@ -58,3 +58,31 @@ commands = [
     ''
 ]
 
+commands_array = [
+    'help',
+    'add',
+    'add-address',
+    'add-email',
+    'add-birthday',
+    'add-note',
+    'all-contacts',
+    'all-notes',
+    'find',
+    'change-phone',
+    'change-email',
+    'change-address',
+    'change-birthday',
+    'change-note',
+    'show-address',
+    'show-email',
+    'show-phone',
+    'show-birthday',
+    'show-note',
+    'delete-phone',
+    'delete-email',
+    'delete-birthday',
+    'delete-address',
+    'delete-contact',
+    'delete-note',
+    'show-birthdays',
+]

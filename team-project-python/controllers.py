@@ -184,6 +184,7 @@ def change_phone(args,kwargs):
         raise TypeError("Please provide phone number in such format: +123 456789 / +(456) 789012345 / +789 0123456789")
     except IndexError:
         raise IndexError("Please provide phone number in such format: +123 456789 / +(456) 789012345 / +789 0123456789")
+
         
 @input_error
 def change_email(args,kwargs):
@@ -208,6 +209,7 @@ def change_email(args,kwargs):
         raise TypeError("Please provide email in such format: kari@gmail.com")
     except IndexError:
         raise IndexError("Please provide email in such format: kari@gmail.com")
+
         
 @input_error
 def change_birthday(args,kwargs):
@@ -231,6 +233,7 @@ def change_birthday(args,kwargs):
         raise TypeError("Please provide birthday in such format: 13-09-1989")
     except IndexError:
         raise IndexError("Please provide birthday in such format: 13-09-1989")
+
         
 @input_error
 def change_address(args,kwargs):
@@ -270,6 +273,7 @@ def show_address(args,kwargs):
     try:
         name, *args= args
         contact = book.data.get(name)
+
         if contact:
             print(contact.address)
         else: 
@@ -277,6 +281,7 @@ def show_address(args,kwargs):
         
     except:
         print("Please provide contact name")
+
     
 @input_error
 def show_email(args,kwargs):
@@ -285,12 +290,13 @@ def show_email(args,kwargs):
         contact = book.data.get(name)
         if contact:
             print(contact.email)
+
         else: 
             print("Such contact doesn't exist")
         
     except:
         print("Please provide contact name")
-     
+
 @input_error
 def show_phone(args,kwargs):
     try:
@@ -298,6 +304,7 @@ def show_phone(args,kwargs):
         contact = book.data.get(name)
         if contact:
             print(contact.phone)
+
         else: 
             print("Such contact doesn't exist")
         
@@ -311,6 +318,7 @@ def show_birthday(args,kwargs):
         contact = book.data.get(name)
         if contact:
             print(contact.birthday)
+
         else: 
             print("Such contact doesn't exist")
         
