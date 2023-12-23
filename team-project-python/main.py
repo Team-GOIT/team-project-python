@@ -4,6 +4,8 @@ from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 
 
+
+# parse input, split for command and provided values
 def parse_input(user_input):
     if not user_input:
         return '', []
@@ -12,6 +14,7 @@ def parse_input(user_input):
     cmd = cmd.strip().lower()
     return cmd, *args
 
+# message to greet the user
 greeting = """
 
           Welcome to the personal assistant app!
@@ -21,6 +24,7 @@ greeting = """
           Just use such commands
           """
 
+# parse all commands
 def main():
     print(greeting)
     for i in commands:

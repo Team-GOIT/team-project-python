@@ -184,7 +184,10 @@ def change_phone(args,kwargs):
         raise ValueError("Missing required value - Phone or Contact")
     except TypeError:
         raise TypeError("Please provide phone number in such format: +123 456789 / +(456) 789012345 / +789 0123456789")
-        
+    except IndexError:
+        raise IndexError("Please provide phone number in such format: +123 456789 / +(456) 789012345 / +789 0123456789")
+
+
 @input_error
 def change_email(args, kwargs):
     try:
@@ -206,6 +209,9 @@ def change_email(args, kwargs):
         raise ValueError("Missing required value - email or Contact")
     except TypeError:
         raise TypeError("Please provide email in such format: kari@gmail.com")
+    except IndexError:
+        raise IndexError("Please provide email in such format: kari@gmail.com")
+
 
 @input_error
 def change_birthday(args, kwargs):
@@ -227,7 +233,10 @@ def change_birthday(args, kwargs):
         raise ValueError("Missing required value - birthday or Contact")
     except TypeError:
         raise TypeError("Please provide birthday in such format: 13-09-1989")
-        
+    except IndexError:
+        raise IndexError("Please provide birthday in such format: 13-09-1989")
+
+
 @input_error
 def change_address(args, kwargs):
     try:
@@ -261,21 +270,17 @@ def change_note(args, kwargs):
 @input_error
 def show_address(args, kwargs):
     try:
-        name, *args = args
+        name, *args= args
         contact = contactsManager.data.get(name)
-        if not contact:
-            raise AttributeError
-        print(contact.address)
-        # else:
 
-    except TypeError:
-        TypeError("TypeErrorPlease provide contact name")
-    except AttributeError:
-        AttributeError("NameErrorSuch contact doesn't exist")
-    except ValueError:
-        ValueError("ValueErrorPlease provide contact name")
-    except IndexError:
-        IndexError("IndexErrorPlease provide contact name")
+        if contact:
+            print(contact.address)
+        else:
+            print("Such contact doesn't exist")
+
+    except:
+        print("Please provide contact name")
+
     
 @input_error
 def show_email(args, kwargs):
@@ -285,11 +290,9 @@ def show_email(args, kwargs):
         if contact:
             print(contact.email)
         else:
-            raise NameError
-    except NameError:
-        raise NameError("Such contact doesn't exist")
-    except ValueError:
-        raise ValueError("Please provide contact name")
+            print("Such contact doesn't exist")
+    except:
+        print("Please provide contact name")
 
 @input_error
 def show_phone(args, kwargs):
@@ -299,11 +302,9 @@ def show_phone(args, kwargs):
         if contact:
             print(contact.phone)
         else:
-            raise NameError
-    except NameError:
-        raise NameError("Such contact doesn't exist")
-    except ValueError:
-        raise ValueError("Please provide contact name")
+            print("Such contact doesn't exist")
+    except:
+        print("Please provide contact name")
     
 @input_error
 def show_birthday(args, kwargs):
@@ -312,12 +313,12 @@ def show_birthday(args, kwargs):
         contact = contactsManager.data.get(name)
         if contact:
             print(contact.birthday)
+
         else:
-            raise NameError
-    except NameError:
-        raise NameError("Such contact doesn't exist")
-    except ValueError:
-        raise ValueError("Please provide contact name")
+            print("Such contact doesn't exist")
+
+    except:
+        print("Please provide contact name")
     
 @input_error
 def show_note(args, kwargs):
@@ -325,7 +326,7 @@ def show_note(args, kwargs):
         title, *args = args
         print(notesManager.search_notes(title))
     except:
-        raise NameError("Such note doesn't exist")
+        raise NameError("Please provide note title")
     
 @input_error
 def delete_address(args, kwargs):
@@ -414,7 +415,7 @@ def delete_note(args, kwargs):
         title, *arg = args
         print(notesManager.delete_note(title))
     except:
-        raise NameError("Such note doesn't exist")
+        raise NameError("Please provide note title")
 
 @input_error
 def show_birthdays(args, kwargs):
