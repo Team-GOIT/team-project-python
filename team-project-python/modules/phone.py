@@ -13,7 +13,8 @@ class Phone(Field):
                  return None
            
            # перевірка чи номер телефону починається з +, далі (код країни) та сам номер телефону
-           pattern = r'^\+(\(\d{1,3}\)|\d{1,3})\s\d{6,}$' 
+           #We will update mask or commands description for this command
+           pattern = r'\+380\d{9}' 
 
            if re.match(pattern, number):
                  return number

@@ -1,37 +1,39 @@
 from modules import Contact, AddressBook, NotesBook
 import pickle
+import calls_manager
 
+# contacts = AddressBook()
+# notes = NotesBook()
 
-
-book =AddressBook()
-noteBook = NotesBook()
+contactsManager = AddressBook()
+notesManager = NotesBook()
 
 # save data to database
 def write_to_file():
     with open('contacts.bin', 'wb') as fh:
-        global book
-        pickle.dump(book, fh)
+        global contactsManager
+        pickle.dump(contactsManager, fh)
     with open('notes.bin', 'wb') as fh:
-        global noteBook
-        pickle.dump(noteBook, fh)
-        
+        global notesManager
+        pickle.dump(notesManager, fh)
 
-# take data from database   
+
+# take data from database
 def read_from_file():
     try:
         with open('contacts.bin', 'rb') as fh:
-            global book
-        
+            global contactsManager
+
             decoded = pickle.load(fh)
-            book =decoded
+            contactsManager = decoded
         with open('notes.bin', 'rb') as fh:
-            global noteBook
-        
+            global notesManager
+
             decoded = pickle.load(fh)
-            noteBook =decoded
+            notesManager = decoded
     except:
-        book = AddressBook()
-        noteBook = NotesBook()
+        contactsManager = AddressBook()
+        notesManager = NotesBook()
 
 
 # decorator which parse all errors
@@ -41,30 +43,29 @@ def input_error(fn):
             return fn(args, kwargs)
         except ValueError as e:
             print(e)
-        except TypeError  as e:
+        except TypeError as e:
             print(e)
-        except NameError  as e:
+        except NameError as e:
             print(e)
-        except IndexError  as e:
+        except IndexError as e:
             print(e)
 
-            
     return inner
 
 
 # controllers wich parse user input and do all logic
 @input_error
-def add_contact(args,kwargs):
+def add_contact(args, kwargs):
     try:
         name,*phone= args
         phone= ' '.join(phone)
-        
+
         if not phone:
             raise IndexError
         contact = Contact(name)
         contact.add_or_edit_phone(phone)
-        book.add_contact(contact)  
-        
+        contactsManager.add_contact(contact)
+
     except ValueError:
         raise ValueError('Add name of the contact please or correct format of the phone: +123 456789 / +(456) 789012345 / +789 0123456789')
     except IndexError:
@@ -77,7 +78,7 @@ def add_address(args, kwargs):
         address= ', '.join(address)
         if not address:
             raise IndexError
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if contact:
             contact.add_or_edit_address(address)
             print('Address was added')
@@ -89,7 +90,7 @@ def add_address(args, kwargs):
         raise NameError("Such contact doesn't exist")
     except IndexError:
         raise IndexError('Address is required field. Please provide the address')
-    
+
 @input_error
 def add_email(args, kwargs):
     try:
@@ -97,7 +98,7 @@ def add_email(args, kwargs):
 
         if not email:
             raise IndexError
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if contact:
             contact.add_or_edit_email(email)
         else:
@@ -111,51 +112,48 @@ def add_email(args, kwargs):
 def add_birthday(args, kwargs):
     try:
         name, birthday= args
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if contact:
             contact.add_or_edit_birthday(birthday)
-            
+
         else:
             raise TypeError("Such contact doesn't exist")
-    
+
     except NameError:
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError('Contact and birthday are required fields. Please provide the contact name and birthday in such format <name> 13-09-1989')
 
 @input_error
-def add_note(args, kwargs): 
+def add_note(args, kwargs):
     try:
-        print(args)
-        title,*content= args
-        content= ' '.join(content)
-        
+        title, *content = args
+        content = ' '.join(content)
+
         if not content:
             raise IndexError
-        
-        noteBook.add_note(title, content)
+
+        notesManager.add_note(title, content)
         print("Note was added")
     except IndexError:
-        raise IndexError('Missing required value - Description')  
+        raise IndexError('Missing required value - Description')
     except ValueError:
-        raise ValueError('Missing required values - Title and Description')   
-    
+        raise ValueError('Missing required values - Title and Description')
+
 @input_error
 def show_contacts(args, kwargs):
-    print(book.data)
-    for name,contact in book.data.items():
+    for name ,contact in contactsManager.data.items():
         print(f'{contact.name}: {contact.phone}, {contact.birthday}')
 
 @input_error
 def show_notes(args, kwargs):
-    for note in noteBook.notes:
-        print(note)
+    print(notesManager.get_all_notes())
         
 @input_error
 def find_contact(args, kwargs):
     try:
         name, *arg = args
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if contact:
             print(contact.name, contact.birthday, contact.address)
         else:
@@ -164,13 +162,13 @@ def find_contact(args, kwargs):
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Provide the name of the contact please")
-    
+
 @input_error
 def change_phone(args,kwargs):
     try:
-        name,*phone= args
+        name,*phone = args
         phone= ' '.join(phone)
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if not phone:
             raise IndexError
         if contact:
@@ -188,11 +186,11 @@ def change_phone(args,kwargs):
         raise TypeError("Please provide phone number in such format: +123 456789 / +(456) 789012345 / +789 0123456789")
         
 @input_error
-def change_email(args,kwargs):
+def change_email(args, kwargs):
     try:
-        name, email= args
+        name, email = args
 
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if not email:
             raise IndexError
         if contact:
@@ -201,19 +199,19 @@ def change_email(args,kwargs):
             except:
                 raise TypeError
         else: raise NameError
-            
+
     except NameError:
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Missing required value - email or Contact")
     except TypeError:
         raise TypeError("Please provide email in such format: kari@gmail.com")
-        
+
 @input_error
-def change_birthday(args,kwargs):
+def change_birthday(args, kwargs):
     try:
-        name,birthday= args
-        contact = book.data.get(name)
+        name,birthday = args
+        contact = contactsManager.data.get(name)
         if not birthday:
             raise IndexError
         if contact:
@@ -222,7 +220,7 @@ def change_birthday(args,kwargs):
             except:
                 raise TypeError
         else: raise NameError
-            
+
     except NameError:
         raise NameError("Such contact doesn't exist")
     except ValueError:
@@ -231,28 +229,28 @@ def change_birthday(args,kwargs):
         raise TypeError("Please provide birthday in such format: 13-09-1989")
         
 @input_error
-def change_address(args,kwargs):
+def change_address(args, kwargs):
     try:
         name, *address= args
         address= ' '.join(address)
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if not address:
             raise ValueError
         if contact:
             contact.add_or_edit_address(address)
         else: raise NameError
-            
+
     except NameError:
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Missing required values - address or Contact. Please provide address or Contact name")
-        
+
 @input_error
-def change_note(args,kwargs):
+def change_note(args, kwargs):
     try:
-        title,*des= args
-        des= ' '.join(des)
-        noteBook.edit_note(title, des)
+        title, *des = args
+        des = ' '.join(des)
+        notesManager.edit_note(title, des)
             
         print('Note was updated successfully')
     except NameError:
@@ -261,15 +259,15 @@ def change_note(args,kwargs):
             raise ValueError("Missing required value - Description")
         
 @input_error
-def show_address(args,kwargs):
+def show_address(args, kwargs):
     try:
-        name, *args= args
-        contact = book.data.get(name)
+        name, *args = args
+        contact = contactsManager.data.get(name)
         if not contact:
             raise AttributeError
         print(contact.address)
         # else:
-            
+
     except TypeError:
         TypeError("TypeErrorPlease provide contact name")
     except AttributeError:
@@ -280,10 +278,10 @@ def show_address(args,kwargs):
         IndexError("IndexErrorPlease provide contact name")
     
 @input_error
-def show_email(args,kwargs):
+def show_email(args, kwargs):
     try:
-        name, *args= args
-        contact = book.data.get(name)
+        name, *args = args
+        contact = contactsManager.data.get(name)
         if contact:
             print(contact.email)
         else:
@@ -292,50 +290,50 @@ def show_email(args,kwargs):
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Please provide contact name")
-     
+
 @input_error
-def show_phone(args,kwargs):
+def show_phone(args, kwargs):
     try:
-        name, *args= args
-        contact = book.data.get(name)
+        name, *args = args
+        contact = contactsManager.data.get(name)
         if contact:
             print(contact.phone)
         else:
-                raise NameError
+            raise NameError
     except NameError:
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Please provide contact name")
     
 @input_error
-def show_birthday(args,kwargs):
+def show_birthday(args, kwargs):
     try:
         name, *args= args
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if contact:
             print(contact.birthday)
         else:
-                raise NameError
+            raise NameError
     except NameError:
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Please provide contact name")
     
 @input_error
-def show_note(args,kwargs):
+def show_note(args, kwargs):
     try:
-        title, *args= args
-        note = noteBook.search_notes(title)
-        print(note)
+        title, *args = args
+        print(notesManager.search_notes(title))
     except:
         raise NameError("Such note doesn't exist")
     
 @input_error
-def delete_address(args,kwargs):
+def delete_address(args, kwargs):
     try:
-        name, *address= args
+        name, *address = args
         
-        contact = book.data.get(name)
+        # can we use class method here?
+        contact = contactsManager.data.get(name)
         if contact:
             contact.remove_address()
             
@@ -346,13 +344,14 @@ def delete_address(args,kwargs):
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Please provide contact name")
-    
+
 @input_error
-def delete_email(args,kwargs):
+def delete_email(args, kwargs):
     try:
-        name, *email= args
+        name, *email = args
         
-        contact = book.data.get(name)
+        # can we use class method here?
+        contact = contactsManager.data.get(name)
         if contact:
             contact.remove_email()
             
@@ -363,13 +362,13 @@ def delete_email(args,kwargs):
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Please provide contact name")
-    
+
 @input_error
-def delete_birthday(args,kwargs):
+def delete_birthday(args, kwargs):
     try:
-        name, *birthday= args
+        name, *birthday = args
         
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if contact:
             contact.remove_birthday()
         else:
@@ -378,13 +377,13 @@ def delete_birthday(args,kwargs):
         raise NameError("Such contact doesn't exist")
     except ValueError:
         raise ValueError("Please provide contact name")
-    
+
 @input_error
-def delete_phone(args,kwargs):
+def delete_phone(args, kwargs):
     try:
-        name, *phone= args
+        name, *phone = args
         
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if contact:
             contact.remove_phone()
         else:
@@ -394,13 +393,13 @@ def delete_phone(args,kwargs):
     except ValueError:
         raise ValueError("Please provide contact name")
 
-@input_error   
+@input_error
 def delete_contact(args, kwargs):
     try:
         name, *arg = args
-        contact = book.data.get(name)
+        contact = contactsManager.data.get(name)
         if contact:
-            book.delete_contact(name)
+            contactsManager.delete_contact(name)
             print("Contact was deleted successfully")
         else:
             raise NameError
@@ -413,19 +412,29 @@ def delete_contact(args, kwargs):
 def delete_note(args, kwargs):
     try:
         title, *arg = args
-        print(noteBook.delete_note(title))
+        print(notesManager.delete_note(title))
     except:
         raise NameError("Such note doesn't exist")
 
 @input_error
 def show_birthdays(args, kwargs):
-    
     try:
         period, *args= args
-        birthdays = book.show_birthdays(period)
+        birthdays = contactsManager.show_birthdays(period)
         
         print(birthdays)
     except ValueError:
         raise ValueError("Period is missing")
-    
-    
+
+
+@input_error
+def send_sms(args, kwargs):
+    contact_name, sms_text = args
+    # calls_manager.send_message(contact.phone, sms_text)
+
+def voice_message(args, kwargs):
+    contact_name, sms_text = args
+    # This line returns error. Why?
+    # contact = contacts.find_contact(contact_name)
+    # if contact:
+        # calls_manager.voice_message(contact.phone, sms_text)
