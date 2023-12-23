@@ -1,6 +1,5 @@
-
 from commands_list import commands, commands_array
-from controllers import *
+import controllers
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 
@@ -24,15 +23,14 @@ greeting = """
 
           Just use such commands
           """
-    
+
 # parse all commands
 def main():
     print(greeting)
     for i in commands:
         print(i)
 
-    read_from_file()
-
+    controllers.read_from_file()
     completer = WordCompleter(commands_array, ignore_case=True, sentence=True)
 
     while True:
@@ -40,8 +38,7 @@ def main():
         command, *args = parse_input(user_input)
         
         if command in ['close', 'exit']:
-
-            write_to_file()
+            controllers.write_to_file()
             print('Good bye')
             break
         elif command=='hello':
@@ -50,55 +47,59 @@ def main():
             for i in commands:
                 print(i)
         elif command == 'add':
-            add_contact(*args)
+            controllers.add_contact(*args)
         elif command == "add-address":
-            add_address(*args)
+            controllers.add_address(*args)
         elif command == "add-email":
-            add_email(*args)
+            controllers.add_email(*args)
         elif command == "add-birthday":
-            add_birthday(*args)
+            controllers.add_birthday(*args)
         elif command == "add-note":
-            add_note(*args)
+            controllers.add_note(*args)
         elif command == 'all-contacts':
-            show_contacts()
+            controllers.show_contacts()
         elif command == 'all-notes':
-            show_notes()
+            controllers.show_notes()
         elif command == 'find':
-            find_contact(*args)
+            controllers.find_contact(*args)
         elif command == 'change-phone':
-            change_phone(*args)
+            controllers.change_phone(*args)
         elif command == 'change-email':
-            change_email(*args)
+            controllers.change_email(*args)
         elif command == 'change-address':
-            change_address(*args)
+            controllers.change_address(*args)
         elif command == 'change-birthday':
-            change_birthday(*args)
+            controllers.change_birthday(*args)
         elif command == 'change-note':
-            change_note(*args)
+            controllers.change_note(*args)
         elif command =='show-address':
-            show_address(*args)
+            controllers.show_address(*args)
         elif command =='show-email':
-            show_email(*args)
+            controllers.show_email(*args)
         elif command =='show-phone':
-            show_phone(*args)
+            controllers.show_phone(*args)
         elif command =='show-birthday':
-            show_birthday(*args)
+            controllers.show_birthday(*args)
         elif command =='show-note':
-            show_note(*args)
+            controllers.show_note(*args)
         elif command == 'delete-phone':
-            delete_phone(*args)
+            controllers.delete_phone(*args)
         elif command == 'delete-email':
-            delete_email(*args)
+            controllers.delete_email(*args)
         elif command == 'delete-birthday':
-            delete_birthday(*args)
+            controllers.delete_birthday(*args)
         elif command == 'delete-address':
-            delete_address(*args)
+            controllers.delete_address(*args)
         elif command == 'delete-contact':
-            delete_contact(*args)
+            controllers.delete_contact(*args)
         elif command == 'delete-note':
-            delete_note(*args)
+            controllers.delete_note(*args)
         elif command == "show-birthdays":
-            show_birthdays(*args)
+            controllers.show_birthdays(*args)
+        elif command =='send-sms':
+            controllers.send_sms(*args)
+        elif command =='send-voice':
+            controllers.voice_message(*args)
         else:
             print('Invalid command')
 
