@@ -9,5 +9,5 @@ setup(
     author_email='k.morozova@tiomarkets.com, lera.matviichuk01@gmail.com, olieinykov@gmail.com, roma.yakimovich@yahoo.com, ',
     packages=find_packages(),
     setup_requires=['prettytable'],
-    install_requires=['prettytable']
+    install_requires=['prettytable', 'prompt-toolkit', 'twilio']
 )
