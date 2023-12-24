@@ -8,7 +8,6 @@ from_number = "+14082284738"
 twilio_client = Client(account_sid, auth_token)
 
 def send_message(phone_number, text):
-    print('msg text', text)
     try:
         message = twilio_client.messages.create(
             body=text,
@@ -26,7 +25,6 @@ def send_message(phone_number, text):
 
 
 def voice_message(phone_number, text):
-    print('msg text', text)
     try:
         call = twilio_client.calls.create(
             twiml=f"<Response><Say>{text}</Say></Response>",
