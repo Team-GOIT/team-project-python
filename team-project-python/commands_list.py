@@ -59,10 +59,17 @@ commands = [
     '{:<50}|{:^50}|{:^50}|'.format('Send sms to contact', "send-sms <contact-name>", "SMS will be sent to the contact"),
     '',
     '{:<50}|{:^50}|{:^50}|'.format('Send voice message', "send-voice <contact-name>", "The phone call will read the message you send."),
-    ''
+    '',
+    '{:<50}|{:^50}|{:^50}|'.format('Add new tag to note', "add-note-tag <note-name> <note-tag>", "Tag will be added to the note"),
+    '',
+    '{:<50}|{:^50}|{:^50}|'.format('Delete tag from the note', "delete-note-tag <note-name> <note-tag>", "Tag will be removed from the note"),
+    '',
 ]
 
 commands_array = [
+    'help',
+    'exit',
+    'close',
     'help',
     'add',
     'add-address',
@@ -81,7 +88,7 @@ commands_array = [
     'show-email',
     'show-phone',
     'show-birthday',
-    'show-note',
+    'search-notes',
     'delete-phone',
     'delete-email',
     'delete-birthday',
@@ -89,4 +96,8 @@ commands_array = [
     'delete-contact',
     'delete-note',
     'show-birthdays',
+    'add-note-tag',
+    'delete-note-tag',
+    'send-sms',
+    'send-voice'
 ]

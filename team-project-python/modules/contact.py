@@ -16,7 +16,7 @@ class Contact:
     def __str__(self) -> str:
         info_array = [f"Contact {self._name}", self._phone, self._email,
                       self._address, self._birthday]
-        return ','.join(filter(lambda n: n, info_array))
+        return ', '.join(map(lambda n: str(n), filter(lambda n: n, info_array)))
 
     @property
     def name(self) -> Name :

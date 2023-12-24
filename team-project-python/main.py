@@ -34,7 +34,7 @@ def main():
     completer = WordCompleter(commands_array, ignore_case=True, sentence=True)
 
     while True:
-        user_input = prompt("Enter the command >>>>>", completer=completer)
+        user_input = prompt("Enter the command: ", completer=completer)
         command, *args = parse_input(user_input)
         
         if command in ['close', 'exit']:
@@ -96,10 +96,16 @@ def main():
             controllers.delete_note(*args)
         elif command == "show-birthdays":
             controllers.show_birthdays(*args)
-        elif command =='send-sms':
+        elif command == "send-sms":
             controllers.send_sms(*args)
-        elif command =='send-voice':
+        elif command == "send-voice":
             controllers.voice_message(*args)
+        elif command == "add-note-tag":
+            controllers.add_note_tag(*args)
+        elif command == "search-notes":
+            controllers.search_notes(*args)
+        elif command == "delete-note-tag":
+            controllers.delete_note_tag(*args)
         else:
             print('Invalid command')
 
