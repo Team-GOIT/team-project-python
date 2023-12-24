@@ -3,22 +3,22 @@ from datetime import datetime
 from .birthday import Birthday
 from .contact import Contact;
 
-class AddressBook(UserDict):
-    def add_contact(self,user):
 
+class AddressBook(UserDict):
+    def add_contact(self, user):
         self.data[user.name.value] = user
 
     def add_note(self,note):
         self.data[note['title']] = note
 
-    def find_contact(self,name):
+    def find_contact(self, name):
         return self.data[name] if name in self.data.keys() else None
-    def find_note(self,title):
-        return self.data[title] if title in self.data.keys() else None
-    def delete_contact(self,name):
+
+    def delete_contact(self, name):
         if name in self.data:
             del self.data[name]
-    def show_birthdays(self,period):
+
+    def show_birthdays(self, period):
         today = datetime.now()
         week_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         grouped_birthdays = {day: [] for day in week_days}
@@ -30,7 +30,7 @@ class AddressBook(UserDict):
                 str_time = str(birthday).split(': ')[1]
                
                 birthday_this_year = datetime.strptime(str_time, '%d-%m-%Y').replace(year=today.year)
-                
+
                 if birthday_this_year < today:
                     birthday_this_year = birthday_this_year.replace(year=today.year + 1)
 
@@ -49,3 +49,7 @@ class AddressBook(UserDict):
             output += f'{day}: {", ".join(names)}\n'
 
         return output
+
+    def search(self, input):
+        matching_contacts = [contact for contact in self.data.values() if contact.contains_value(input)]
+        return matching_contacts

@@ -106,6 +106,8 @@ def main():
             controllers.search_notes(*args)
         elif command == "delete-note-tag":
             controllers.delete_note_tag(*args)
+        elif command == 'search':
+            controllers.search(*args)
         else:
             print('Invalid command')
 

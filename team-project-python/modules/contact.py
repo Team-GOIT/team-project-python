@@ -1,3 +1,4 @@
+import re
 from .name import Name
 from .address import Address
 from .phone import Phone
@@ -61,6 +62,15 @@ class Contact:
 
     def remove_birthday(self) -> None:
         self._set_field('_birthday', None, "Birthday successfully removed")
+
+    def contains_value(self, value) -> bool:
+        pattern = re.compile(f".*{re.escape(value)}.*", re.IGNORECASE)
+
+        for field in ['_name', '_phone', '_email', '_address', '_birthday']:
+            if pattern.match(str(getattr(self, field, ''))):
+                return True
+
+        return False
 
     def _set_field(self, field, value, success_message):
         setattr(self, field, value)

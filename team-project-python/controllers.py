@@ -145,7 +145,7 @@ def add_note(args, kwargs):
 @input_error
 def show_contacts(args, kwargs):
     for name ,contact in contactsManager.data.items():
-        print(f'{contact.name}: {contact.phone}, {contact.birthday}')
+        print(contact)
 
 @input_error
 def show_notes(args, kwargs):
@@ -161,7 +161,7 @@ def find_contact(args, kwargs):
         name, *arg = args
         contact = contactsManager.data.get(name)
         if contact:
-            print(contact.name, contact.birthday, contact.address)
+            print(contact)
         else:
             raise NameError
     except NameError:
@@ -453,6 +453,16 @@ def show_birthdays(args, kwargs):
         raise ValueError("Period is missing")
 
 @input_error
+def search(args, kwargs):
+    contacts = contactsManager.search(' '.join(args))
+
+    if contacts:
+        joined_contacts = '\n'.join([str(contact) for contact in contacts])
+        print(f'Found contacts: \n{joined_contacts}')
+    else:
+        print('No contacts were found')
+        
+@input_error
 def add_note_tag(args, kwargs):
     try:
         note_title, tag = args
@@ -486,4 +496,6 @@ def voice_message(args, kwargs):
     if contact:
         calls_manager.voice_message(contact.phone, message_text)
     else:
-        print(f"Looks like contact:{contact_name} not exist. Crete it, and try to send sms again")
+        print(f"Looks like contact:{contact_name} not exist. Crete it, and try to send sms again")        
+        
+        

@@ -64,6 +64,8 @@ commands = [
     '',
     '{:<50}|{:^50}|{:^50}|'.format('Delete tag from the note', "delete-note-tag <note-name> <note-tag>", "Tag will be removed from the note"),
     '',
+    '{:<50}|{:^50}|{:^50}|'.format('Search contact by input', "search <input>", "Search contact by input"),
+    '',
 ]
 
 commands_array = [
@@ -100,4 +102,5 @@ commands_array = [
     'delete-note-tag',
     'send-sms',
     'send-voice'
+    'search'
 ]

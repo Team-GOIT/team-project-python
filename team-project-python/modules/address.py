@@ -9,6 +9,3 @@ class Address(Field):
             return f"Address: {self.address_string}"
         else:
             return "No address provided"
-
-
-        
