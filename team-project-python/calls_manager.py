@@ -14,7 +14,6 @@ def send_message(phone_number, text):
             from_=from_number,
             to=phone_number
         )
-        print(f"Message sent to {phone_number}")
 
         if message.sid:
             print(f"Message '{text}' sent to phone number:'{phone_number}'")

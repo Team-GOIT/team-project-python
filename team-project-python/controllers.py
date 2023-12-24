@@ -2,9 +2,6 @@ from modules import Contact, AddressBook, NotesBook
 import pickle
 import calls_manager
 
-# contacts = AddressBook()
-# notes = NotesBook()
-
 contactsManager = AddressBook()
 notesManager = NotesBook()
 
@@ -67,7 +64,7 @@ def add_contact(args, kwargs):
         contactsManager.add_contact(contact)
 
     except ValueError:
-        raise ValueError('Add name of the contact please or correct format of the phone: +123 456789 / +(456) 789012345 / +789 0123456789')
+        raise ValueError('Add name of the contact please or correct format of the phone: +380297658192')
     except IndexError:
         raise IndexError('Phone is required. Please add phone to the contact')
 
@@ -127,18 +124,23 @@ def add_birthday(args, kwargs):
 @input_error
 def add_note(args, kwargs):
     try:
-        title, *content = args
-        content = ' '.join(content)
+        title = input("Enter note's title: ")
+        if not title:
+            return print("Make sure that title of the note is not empty")
 
-        if not content:
-            raise IndexError
+        existing_note = notesManager.get_note(title)
+        if not existing_note:
+            content = input("Enter note's content: ")
+            if not content:
+                return print("Make sure content of the note not empty")
 
-        notesManager.add_note(title, content)
-        print("Note was added")
-    except IndexError:
-        raise IndexError('Missing required value - Description')
-    except ValueError:
-        raise ValueError('Missing required values - Title and Description')
+            tags = input("Enter note's tags (use ',' to separate multiple tags): ")
+            tags_list = tags.replace(' ', '').split(',') if len(tags) > 0 else []
+
+            return print(notesManager.add_note(title, content, tags_list))
+        return print(f"Note with title '{title}' already exists")
+    except (NameError, ValueError, TypeError, IndexError):
+        return print("Please make sure that command is correct. Your note should have 'title', 'content' and optional 'tags'")
 
 @input_error
 def show_contacts(args, kwargs):
@@ -148,6 +150,10 @@ def show_contacts(args, kwargs):
 @input_error
 def show_notes(args, kwargs):
     print(notesManager.get_all_notes())
+    # try:
+    #     return print(notesManager.get_all_notes())
+    # except (NameError, ValueError, TypeError, IndexError):
+    #     return print("Please make sure that command is correct. Example: 'all-notes'")
         
 @input_error
 def find_contact(args, kwargs):
@@ -183,9 +189,9 @@ def change_phone(args,kwargs):
     except ValueError:
         raise ValueError("Missing required value - Phone or Contact")
     except TypeError:
-        raise TypeError("Please provide phone number in such format: +123 456789 / +(456) 789012345 / +789 0123456789")
+        raise TypeError("Please provide phone number in such format: +380297658192")
     except IndexError:
-        raise IndexError("Please provide phone number in such format: +123 456789 / +(456) 789012345 / +789 0123456789")
+        raise IndexError("Please provide phone number in such format: +380297658192")
 
 
 @input_error
@@ -258,15 +264,29 @@ def change_address(args, kwargs):
 def change_note(args, kwargs):
     try:
         title, *des = args
-        des = ' '.join(des)
-        notesManager.edit_note(title, des)
-            
-        print('Note was updated successfully')
-    except NameError:
-        raise NameError("Such note doesn't exist")
-    except ValueError:
-            raise ValueError("Missing required value - Description")
-        
+        if not title:
+            return print('Make sure that note with such title exists')
+
+        existing_note = notesManager.get_note(title)
+        if not existing_note:
+            return print(f"Looks like not with '{title}' is not exist")
+
+        if existing_note:
+            print("Current note's content: ", existing_note.content)
+            new_content = input("New content: ")
+
+            if not new_content:
+                return print("Note's content cannot be empty")
+
+            print("Current note's tags: ", existing_note.tags)
+            new_tags = input("New tags (use ',' to separate multiple tags): ")
+            tags_list = new_tags.replace(' ', '').split(',') if len(new_tags) > 0 else []
+
+            return print(notesManager.edit_note(title, new_content, tags_list))
+    except (NameError, ValueError, TypeError, IndexError):
+        return print(
+            "Please make sure that command is correct. Your note should have 'title', 'content' and optional 'tags'")
+
 @input_error
 def show_address(args, kwargs):
     try:
@@ -321,12 +341,17 @@ def show_birthday(args, kwargs):
         print("Please provide contact name")
     
 @input_error
-def show_note(args, kwargs):
+def search_notes(args, kwargs):
     try:
-        title, *args = args
-        print(notesManager.search_notes(title))
-    except:
-        raise NameError("Please provide note title")
+        title = input("Enter search query: ")
+        tags = input("Enter note's tags (use ',' to separate multiple): ")
+        if not title and not tags:
+            return print("Please enter a search query or some tags")
+
+        tags_list = tags.split(', ')
+        return print(notesManager.search_notes_by_tags(title, tags_list))
+    except (NameError, ValueError, TypeError, IndexError):
+        return print("Please make sure that command is correct. Please enter a search query or some tags")
     
 @input_error
 def delete_address(args, kwargs):
@@ -414,8 +439,8 @@ def delete_note(args, kwargs):
     try:
         title, *arg = args
         print(notesManager.delete_note(title))
-    except:
-        raise NameError("Please provide note title")
+    except (NameError, ValueError, TypeError, IndexError):
+        return print("Please make sure that command is correct. Example: 'delete-note <note-title>'")
 
 @input_error
 def show_birthdays(args, kwargs):
@@ -428,18 +453,6 @@ def show_birthdays(args, kwargs):
         raise ValueError("Period is missing")
 
 @input_error
-def send_sms(args, kwargs):
-    contact_name, sms_text = args
-    # calls_manager.send_message(contact.phone, sms_text)
-
-def voice_message(args, kwargs):
-    contact_name, sms_text = args
-    # This line returns error. Why?
-    # contact = contacts.find_contact(contact_name)
-    # if contact:
-        # calls_manager.voice_message(contact.phone, sms_text)
-
-@input_error
 def search(args, kwargs):
     contacts = contactsManager.search(' '.join(args))
 
@@ -448,3 +461,41 @@ def search(args, kwargs):
         print(f'Found contacts: \n{joined_contacts}')
     else:
         print('No contacts were found')
+        
+@input_error
+def add_note_tag(args, kwargs):
+    try:
+        note_title, tag = args
+        return print(notesManager.add_tag(note_title, tag))
+    except (NameError, ValueError, TypeError, IndexError):
+        return print("Please make sure that command is correct. Example: 'add-note-tag <note-title> <tag>'")
+
+@input_error
+def delete_note_tag(args, kwargs):
+    try:
+        note_title, tag = args
+        return print(notesManager.delete_tag(note_title, tag))
+    except (NameError, ValueError, TypeError, IndexError):
+        return print("Please make sure that command is correct. Example: 'delete-note-tag <note-title> <tag>'")
+
+@input_error
+def send_sms(args, kwargs):
+    contact_name, *sms_text = args
+    message_text = ' '.join(sms_text)
+    contact = contactsManager.data.get(contact_name)
+    if contact:
+        calls_manager.send_message(contact.phone, message_text)
+    else:
+        print(f"Looks like contact:{contact_name} not exist. Crete it, and try to send sms again")
+
+@input_error
+def voice_message(args, kwargs):
+    contact_name, *message = args
+    message_text = ' '.join(message)
+    contact = contactsManager.data.get(contact_name)
+    if contact:
+        calls_manager.voice_message(contact.phone, message_text)
+    else:
+        print(f"Looks like contact:{contact_name} not exist. Crete it, and try to send sms again")        
+        
+        
