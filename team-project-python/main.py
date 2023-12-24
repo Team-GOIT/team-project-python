@@ -100,6 +100,8 @@ def main():
             controllers.send_sms(*args)
         elif command =='send-voice':
             controllers.voice_message(*args)
+        elif command == 'search':
+            controllers.search(*args)
         else:
             print('Invalid command')
 
