@@ -135,7 +135,7 @@ def add_note(args, kwargs):
                 return print("Make sure content of the note not empty")
 
             tags = input("Enter note's tags (use ',' to separate multiple tags): ")
-            tags_list = tags.replace(' ', '').split(',') if len(tags) > 0 else []
+            tags_list = notesManager.normalize_tags_parameters(tags)
 
             return print(notesManager.add_note(title, content, tags_list))
         return print(f"Note with title '{title}' already exists")
@@ -280,7 +280,7 @@ def change_note(args, kwargs):
 
             print("Current note's tags: ", existing_note.tags)
             new_tags = input("New tags (use ',' to separate multiple tags): ")
-            tags_list = new_tags.replace(' ', '').split(',') if len(new_tags) > 0 else []
+            tags_list = notesManager.normalize_tags_parameters(new_tags)
 
             return print(notesManager.edit_note(title, new_content, tags_list))
     except (NameError, ValueError, TypeError, IndexError):
@@ -348,7 +348,7 @@ def search_notes(args, kwargs):
         if not title and not tags:
             return print("Please enter a search query or some tags")
 
-        tags_list = tags.split(', ')
+        tags_list = notesManager.normalize_tags_parameters(tags)
         return print(notesManager.search_notes_by_tags(title, tags_list))
     except (NameError, ValueError, TypeError, IndexError):
         return print("Please make sure that command is correct. Please enter a search query or some tags")

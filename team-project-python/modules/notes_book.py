@@ -52,6 +52,9 @@ class NotesBook:
         else:
             return f"There is no note with title: '{note_title}'"
 
+    def normalize_tags_parameters(self, tags_str):
+        return list(filter(None, map(str.strip, tags_str.split(','))))
+
     def delete_tag(self, note_title, tag):
         matching_notes = [note for note in self.notes if note.title == note_title]
 
