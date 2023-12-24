@@ -7,21 +7,24 @@ from_number = "+14082284738"
 
 twilio_client = Client(account_sid, auth_token)
 
+
 def send_message(phone_number, text):
     try:
         message = twilio_client.messages.create(
-            body=text,
-            from_=from_number,
-            to=phone_number
+            body=text, from_=from_number, to=phone_number
         )
 
         if message.sid:
             print(f"Message '{text}' sent to phone number:'{phone_number}'")
         else:
-            print(f"Failed to send message to: {phone_number}. Make sure phone number is correct.")
-    #Exception code could be improved
+            print(
+                f"Failed to send message to: {phone_number}. Make sure phone number is correct."
+            )
+    # Exception code could be improved
     except Exception:
-        print(f"Failed to send message to: {phone_number}. Make sure phone number is correct.")
+        print(
+            f"Failed to send message to: {phone_number}. Make sure phone number is correct."
+        )
 
 
 def voice_message(phone_number, text):
@@ -29,7 +32,7 @@ def voice_message(phone_number, text):
         call = twilio_client.calls.create(
             twiml=f"<Response><Say>{text}</Say></Response>",
             to=phone_number,
-            from_=from_number
+            from_=from_number,
         )
 
         # Print the call SID
@@ -39,6 +42,6 @@ def voice_message(phone_number, text):
             print(f"Calling '{phone_number}...'")
         else:
             print(f"Failed to call: {phone_number}. Make sure phone number is correct.")
-    #Exception code could be improved
+    # Exception code could be improved
     except Exception:
         print(f"Failed to call: {phone_number}. Make sure phone number is correct.")

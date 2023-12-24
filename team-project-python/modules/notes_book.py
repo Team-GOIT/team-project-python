@@ -40,7 +40,9 @@ class NotesBook:
         if not self.notes:
             return "There are no notes yet. Create some."
 
-        all_notes_template = "All notes:\n\n" + "\n".join(map(lambda note: note.get_formatted(), self.notes))
+        all_notes_template = "All notes:\n\n" + "\n".join(
+            map(lambda note: note.get_formatted(), self.notes)
+        )
         return all_notes_template
 
     def add_tag(self, note_title, tag):
@@ -70,17 +72,24 @@ class NotesBook:
         if query:
             query_lower = query.lower().strip()
             matching_notes = [
-                note for note in matching_notes if query_lower in note.title.lower() or query_lower in note.content.lower()
+                note
+                for note in matching_notes
+                if query_lower in note.title.lower()
+                or query_lower in note.content.lower()
             ]
 
         if tags:
             tags_lower = [tag.lower().strip() for tag in tags]
             filtered_by_tags = [
-                note for note in matching_notes if any(t in [t.lower().strip() for t in note.tags] for t in tags_lower)
+                note
+                for note in matching_notes
+                if any(t in [t.lower().strip() for t in note.tags] for t in tags_lower)
             ]
             matching_notes = sorted(filtered_by_tags, key=lambda note: note.tags)
 
         if not matching_notes:
             return "No matching notes found."
 
-        return "Matching notes:\n\n" + "\n".join(map(lambda note: note.get_formatted(), matching_notes))
+        return "Matching notes:\n\n" + "\n".join(
+            map(lambda note: note.get_formatted(), matching_notes)
+        )

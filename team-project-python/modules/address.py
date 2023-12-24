@@ -1,5 +1,6 @@
 from .field import Field
 
+
 class Address(Field):
     def __init__(self, address_string=""):
         self.address_string = address_string
