@@ -211,5 +211,6 @@ commands_array = [
     "add-note-tag",
     "delete-note-tag",
     "send-sms",
-    "send-voice" "search",
+    "send-voice",
+    "search",
 ]
